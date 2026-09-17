@@ -1,16 +1,53 @@
 import camion.*
 import cosas.*
 
-
 describe "camiones" {
   test " Carga y descarga" {
     camion.cargar(bumblebee)
-    assert.equals(#{bumblebee}, camion.cosas() )
+    assert.equals(#{bumblebee}, camion.cosas())
     camion.cargar(knightRider)
-    assert.equals(#{bumblebee,knightRider}, camion.cosas() )
+    assert.equals(#{bumblebee, knightRider}, camion.cosas())
     camion.descargar(bumblebee)
-    assert.equals(#{knightRider}, camion.cosas() )
-
-    
+    assert.equals(#{knightRider}, camion.cosas())
+    assert.throwsException({ camion.cargar(knightRider) })
+    assert.throwsException({ camion.descargar(bumblebee) })
   }
+  
+  test "cargas pares" {
+    camion.cargar(bumblebee)
+    arenaAGranel.peso(50)
+    camion.cargar(arenaAGranel)
+    assert.that(camion.cargamentoPar())
+  }
+  
+  test "cargas impares" {
+    camion.cargar(bumblebee)
+    arenaAGranel.peso(51)
+    camion.cargar(arenaAGranel)
+    assert.notThat(camion.cargamentoPar())
+  }
+  
+  test " Hay alguno que pesa" {
+    camion.cargar(bumblebee)
+    arenaAGranel.peso(50)
+    camion.cargar(arenaAGranel)
+    assert.that(camion.hayAlgoDePeso(50))
+    assert.that(camion.hayAlgoDePeso(800))
+    assert.notThat(camion.hayAlgoDePeso(500))
+  }
+  
+  test "exceso y cuestion de peso" {
+    camion.cargar(bumblebee)
+    paqueteDeLadrillos.cantidad(300)
+    camion.cargar(paqueteDeLadrillos)
+    assert.equals(2400, camion.pesoTotal())
+  }
+   test "exceso de peso" {
+    camion.cargar(bumblebee)
+    paqueteDeLadrillos.cantidad(400)
+    assert.throwsException({ camion.cargar(paqueteDeLadrillos) })
+    assert.equals(2600, camion.calculoDePesoCon(paqueteDeLadrillos))
+    assert.that(camion.pesoExcedidoCon(paqueteDeLadrillos))
+  }
+
 }
