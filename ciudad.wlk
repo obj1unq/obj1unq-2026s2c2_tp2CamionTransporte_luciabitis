@@ -58,6 +58,6 @@ object caminosVecinales {
     nivelPermitido = _nivel
   }
   method accesoARutaPermitido(_camion) {
-    return (!_camion.excedidoDePesoEnRuta(self)) 
+    return _camion.pesoTotal() <= self.pesoMaxPermitido()
   }
 }

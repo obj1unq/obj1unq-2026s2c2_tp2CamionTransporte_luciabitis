@@ -13,11 +13,10 @@ object camion {
 		capacidad = _capacidad
 	}
 	
-	method pesoTotal() = self.tara() + cargamento.sumaDeCargamento()
+	method pesoTotal() = tara + cargamento.sumaDeCargamento()
 	
-	method excedidoDePeso() = self.pesoTotal() > self.capacidad()
+	method excedidoDePeso() = self.pesoTotal() > capacidad
 	
-	method excedidoDePesoEnRuta(_ruta) = self.pesoTotal() > _ruta.pesoMaxPermitido()
 	
 	method pesoExcedidoCon(peso) = cargamento.calculoDePesoCon(
 		peso
@@ -50,13 +49,13 @@ object camion {
 			
 	}
 	
-	method cargamentoPar() = cargamento.cosasPar()
+	method cosasDelCargamentoConPesoPar() = cargamento.cosasPar()
 	
 	method hayAlgoDePeso(peso) = cargamento.hayAlgoDePeso(peso)
 	
 	method cosaDeNivel(nivel) = cargamento.cosaConNivelDePeligrosidad(nivel)
 	
-	method cosasConMayorNivel(nivel) = cargamento.superanNivel(nivel)
+	method cosasConMayorNivel(nivel) = cargamento.cosasQueSuperanNivel(nivel)
 	
 	method cosasMasPeligrosasQue(cosa) = cargamento.masPeligrosasQue(cosa)
 	
@@ -71,7 +70,7 @@ object camion {
 		peso2
 	)
 	
-	method cosaMasPesada() = cargamento.cosaMasPesada()
+	method cosaMasPesadaDelCargamento() = cargamento.cosaMasPesada()
 	
 	method pesosDeTodoElCargamento() = cargamento.pesoDeCosas()
 	
@@ -124,13 +123,13 @@ object cargamento {
 		{ cosa => cosa.nivelPeligrosidad() == nivel }
 	)
 	
-	method masPeligrosasQue(_cosas) = self.superanNivel(_cosas.nivelPeligrosidad())
+	method masPeligrosasQue(_cosas) = self.cosasQueSuperanNivel(_cosas.nivelPeligrosidad())
 	
-	method superanNivel(nivel) = cosas.filter(
+	method cosasQueSuperanNivel(nivel) = cosas.filter(
 		{ cosa => cosa.nivelPeligrosidad() > nivel }
 	)
 	
-	method hayCosasQueSuperanNivel(nivel) = !self.superanNivel(nivel).isEmpty()
+	method hayCosasQueSuperanNivel(nivel) = self.cosasQueSuperanNivel(nivel).isNotEmpty()
 	
 	method cosaDePesoEntre(peso1, peso2) = cosas.any(
 		{ cosa => cosa.peso().between(peso1, peso2) }

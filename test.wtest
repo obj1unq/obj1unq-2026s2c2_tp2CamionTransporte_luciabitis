@@ -18,14 +18,14 @@ describe "camiones" {
     camion.cargar(bumblebee)
     arenaAGranel.peso(50)
     camion.cargar(arenaAGranel)
-    assert.that(camion.cargamentoPar())
+    assert.that(camion.cosasDelCargamentoConPesoPar())
   }
   
   test "cargas impares" {
     camion.cargar(bumblebee)
     arenaAGranel.peso(51)
     camion.cargar(arenaAGranel)
-    assert.notThat(camion.cargamentoPar())
+    assert.notThat(camion.cosasDelCargamentoConPesoPar())
   }
   
   test " Hay alguno que pesa" {
@@ -124,9 +124,9 @@ describe "camiones" {
     camion.cargar(bumblebee)
     paqueteDeLadrillos.cantidad(300)
     camion.cargar(paqueteDeLadrillos)
-    assert.equals(bumblebee, camion.cosaMasPesada())
+    assert.equals(bumblebee, camion.cosaMasPesadaDelCargamento())
     camion.descargarTodoElCargamento()
-    assert.throwsException({ camion.cosaMasPesada() })
+    assert.throwsException({ camion.cosaMasPesadaDelCargamento() })
   }
   
   test " Pesos" {
